@@ -5,56 +5,41 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import com.example.ejercicionavigationcomponentkotlin.R
+import com.example.ejercicionavigationcomponentkotlin.databinding.FragmentFinalBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FinalFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+//Creamos la clase FinalFragmento que extiende de Fragment que representa una interfaz particular
+// que se ejecuta dentro de un Activity
 class FinalFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    //Creamos el binding que nos sirve para la vinculacion de vista
+    private lateinit var binding: FragmentFinalBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
+    //Método llamado para que el fragmento cree una instancia de su vista de interfaz de usuario
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //Estas lineas hace que se nos vincule las vistas con el fragmento
+        binding = FragmentFinalBinding.inflate(layoutInflater, container, false)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_final, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FinalFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FinalFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    //Método que se llama justo después que el anterior, haya regresado, pero antes de que se haya
+    //restaurado cualquier estado guardado en la vista
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //Definimos un escuchador mediante el método setOnClickListener que esta asociado al boton
+        //con su vista, cuando se pulsa el botón, navegamos a un destino desde el gráfico de
+        //navegación actual
+        binding.btVolverInicio.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_finalFragment_to_inicioFragment)
+        }
     }
 }
